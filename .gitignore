@@ -1,0 +1,21 @@
+# Build / cache artifacts
+__pycache__/
+*.pyc
+node_modules/
+.idea/
+.vscode/
+*.log
+.DS_Store
+
+# Compiled trading-platform binaries (keep source only)
+*.ex4
+*.ex5
+*.dll
+
+# Large downloaded datasets (keep code; fetch data separately)
+*.csv
+*.zip
+*.parquet
+
+# Local scratch
+_trash_*/
