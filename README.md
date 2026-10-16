@@ -7,11 +7,16 @@
 
 ## 这个仓库是什么
 
-主人做 **XAUUSD（伦敦金）H1 短线交易**，策略栈是 ATR 三件套 + MT5 EA。本仓库把 GitHub 上**有用的量化策略**按三类搜集起来，既保留可读的策展目录（本文件），也把源码 vendoring 进 `strategies/`，方便直接读码研究。
+主人做 **XAUUSD（伦敦金）H1 短线交易**，策略栈是 ATR 三件套 + MT5 EA。本仓库把 GitHub 上**有用的量化策略**按五类搜集起来，既保留可读的策展目录（本文件），也把源码 vendoring 进 `strategies/`，方便直接读码研究。
 
 - **A 类**：MT5/MQL5 EA（与主人当前平台 MT5 直接相关）
 - **B 类**：XAUUSD / 黄金 专属策略（与主线品种直接对口）
 - **C 类**：通用量化 / 回测框架（为未来扩展到国内股票 / 期货做准备，如 vn.py 就是国内期货事实标准）
+- **D 类**：通用外汇（EURUSD / GBPUSD 等非黄金货币对）
+- **E 类**：白银（XAGUSD / 贵金属）
+- **F 类**：原油（WTI / Brent 商品期货）
+- **G 类**：股指期货 / 通用期货（ES / NASDAQ / 恒指等，及期货趋势跟踪）
+- **H 类**：国内期货预备（商品 / 金融期货 CTA，为未来扩展预备）
 
 ---
 
@@ -21,9 +26,10 @@
 
 1. **漂亮数字 ≠ 可复现**。没有附 MT5 Strategy Tester 实测截图 / 离线回测方法论（样本区间、手续费、滑点、是否含未来函数）的，一律按"宣传口径"看待。
 2. **警惕未来函数 / 重绘指标**。B 类里很多 MT4 "non-repainting" 策略，名字喊得响，实际仍可能在 boundaries 上耍花招——读码时重点查 `iCustom` 调用和 `Repaint` 类逻辑。
-3. **ML / DRL 类（如 tradingbot）**：140+ 特征 + 2M steps 训练，极易过拟合到特定样本；**绝不可直接跟单**，只学其特征工程与风险管理思路。
-4. **许可证**：每个被 vendoring 的仓库都是第三方作品，版权归原作者。源码仅供**个人研究**，商用或分发前请各自核对 `LICENSE`（见 `NOTICE.md` 与 `strategies/<类>/<仓库>/LICENSE`）。
-5. **本仓库不承诺任何策略有效**。它是一份"线索清单 + 可读源码"，不是 Signals 订阅。
+3. **ML / DRL 类（如 B2 tradingbot）**：140+ 特征 + 2M steps 训练，极易过拟合到特定样本；**绝不可直接跟单**，只学其特征工程与风险管理思路。
+4. **E / F 类质量提示**：GitHub 上"纯白银 / 纯原油"的优质独立仓库极少（大多 0–2★ 的个人小项目），严肃的 commodity 研究通常藏在通用期货框架（G1 / C2 / C3）里。E / F 类收录以"思路参考"为主，落地前务必自己复刻验证。
+5. **许可证**：每个被 vendoring 的仓库都是第三方作品，版权归原作者。源码仅供**个人研究**，商用或分发前请各自核对 `LICENSE`（见 `NOTICE.md` 与 `strategies/<类>/<仓库>/LICENSE`）。
+6. **本仓库不承诺任何策略有效**。它是一份"线索清单 + 可读源码"，不是 Signals 订阅。
 
 ---
 
@@ -36,7 +42,12 @@ xauusd-ea/
 ├── strategies/
 │   ├── mt5-mql5-ea/          # A 类：MT5/MQL5 EA
 │   ├── xauusd-gold/          # B 类：XAUUSD / 黄金专属
-│   └── quant-frameworks/     # C 类：通用回测框架
+│   ├── quant-frameworks/     # C 类：通用回测框架
+│   ├── forex-general/        # D 类：通用外汇
+│   ├── silver/               # E 类：白银
+│   ├── crude-oil/            # F 类：原油
+│   ├── index-futures/        # G 类：股指期货 / 通用期货
+│   └── domestic-futures/     # H 类：国内期货预备
 └── _clone.sh                 # 重新拉取所有源码的脚本（depth=1）
 ```
 
@@ -78,15 +89,59 @@ xauusd-ea/
 | C4 | [coding-kitties/investing-algorithm-framework](https://github.com/coding-kitties/investing-algorithm-framework) | 2178 | Python | 开发/回测/部署全自动交易算法的完整框架 | 全栈式框架，适合想从研究到部署打通时参考 |
 | C5 | [51bitquant/howtrader](https://github.com/51bitquant/howtrader) | 964 | Python | 加密量化框架，基于 vn.py，接 TradingView 信号 | 信号接入/Webhook 下单思路可借鉴；加密线非主人当前重点 |
 
+## D 类 · 通用外汇（EURUSD / GBPUSD 等非黄金货币对）
+
+| # | 仓库 | ★ | 语言 | 简介 | 研究适配性（胖娃娃批注） |
+|---|------|---|------|------|--------------------------|
+| D1 | [trentstauff/FXBot](https://github.com/trentstauff/FXBot) | 313 | Python | 全自动外汇 bot，基于 OANDA API v20，含 ML 主题 | **D 类旗舰**。信号→下单→风控全链路工程范本，星高且活跃(2026-10)；学"完整自动化外汇系统"怎么搭 |
+| D2 | [VoxHash/ForexSmartBot](https://github.com/VoxHash/ForexSmartBot) | 23 | Python | 桌面外汇 bot：策略+风险管理+回测+IB TWS+MT4（PyQt6 GUI） | 自带回测与风控模块，适合学 backtest/risk 框架如何落地；与 C1 思路互补 |
+| D3 | [NadirAliOfficial/conservative-scalper-ea](https://github.com/NadirAliOfficial/conservative-scalper-ea) | 10 | MQL4 | MT4 保守 scalping：无马丁、无网格，资本保全优先 | **纪律化风险范例**，与主人"不扛单"原则同源；适合读它的仓位/止损逻辑 |
+| D4 | [EA31337/EA31337-classes](https://github.com/EA31337/EA31337-classes) | 273 | MQL5 | EA31337 的 MQL 库/框架（写 EA/指标/脚本的底层类） | A1 的底层库，学 MQL5 EA 模块化开发必读配套；先看这个再读 A1 |
+
+## E 类 · 白银（XAGUSD / 贵金属）
+
+> ⚠️ GitHub 上"纯白银"优质独立仓库极少（多为 0–2★ 个人小项目）。以下以"思路参考"为主，严肃白银研究建议结合 G1 / C2 / C3 的贵金属/商品期货模块。
+
+| # | 仓库 | ★ | 语言 | 简介 | 研究适配性（胖娃娃批注） |
+|---|------|---|------|------|--------------------------|
+| E1 | [Profart86/silver-trading-bot](https://github.com/Profart86/silver-trading-bot) | 0 | MT5 | 白银 MT5 机器人/策略合集 | 少数直接做白银的 MT5 仓库；星低需谨慎，读码看信号逻辑而非结论 |
+| E2 | [Anselzwx/hmm-trading-strategy](https://github.com/Anselzwx/hmm-trading-strategy) | 0 | Python | HMM 机制切换策略（AAPL/金/银） | 用隐马尔可夫做 regime 切换，可借鉴到黄金/白银"震荡↔趋势"状态识别 |
+| E3 | [braveheartcc33/hyperhedge](https://github.com/braveheartcc33/hyperhedge) | 0 | Python | 金银 pairs trading（Z-score 均值回归） | 统计套利视角（金银比均值回归），与主人的单边思路互补，拓展多品种对冲思路 |
+
+## F 类 · 原油（WTI / Brent 商品期货）
+
+> ⚠️ 同 E 类，纯原油独立仓库质量偏低。原油本质是商品期货，严肃做法是在 G1 / C2 / C3 的期货框架下做 WTI/Brent 连续合约。以下作"特征/思路"参考。
+
+| # | 仓库 | ★ | 语言 | 简介 | 研究适配性（胖娃娃批注） |
+|---|------|---|------|------|--------------------------|
+| F1 | [youcef-yk/my_project_smart_crude](https://github.com/youcef-yk/my_project_smart_crude) | 0 | Python | AI 优化原油(Brent/WTI)交易：预测油价+优化买卖决策 | 看它如何用公开数据做油价预测+决策优化；星低，重思路轻结论 |
+| F2 | [martinsurgenorhynx-cmd/ai-crude-oil-trading-bot](https://github.com/martinsurgenorhynx-cmd/ai-crude-oil-trading-bot) | 2 | Python | AI 原油 bot：技术指标+价格动量自动识别买卖 | 动量+技术指标的原油择时小项目；方法学参考，未经验证 |
+
+## G 类 · 股指期货 / 通用期货（ES / NASDAQ / 恒指 / 趋势跟踪）
+
+| # | 仓库 | ★ | 语言 | 简介 | 研究适配性（胖娃娃批注） |
+|---|------|---|------|------|--------------------------|
+| G1 | [amstrdm/mlm-trend-following](https://github.com/amstrdm/mlm-trend-following) | 45 | Python | MLM 式期货趋势跟踪：连续期货 200 日 MA + 波动过滤 + IBKR 下单 | **G 类旗舰**。经典 CTA 趋势跟踪范本，适用于股指/商品期货（含原油）；与主人"趋势过滤"思路同源，可对照学仓位与波动过滤 |
+| G2 | [deshwalmahesh/NSE-Stock-Scanner](https://github.com/deshwalmahesh/NSE-Stock-Scanner) | 348 | Jupyter | 印度 NSE 股票/期货筛选器：横扫/动量/日内+风控+回测 | 完整"筛选→风控→回测"框架，跨市场参考；思路可迁移到 A 股/期货扫描 |
+| G3 | [TexasCoding/project-x-py](https://github.com/TexasCoding/project-x-py) | 33 | Python | 期货交易平台 SDK：历史数据/实时流/微观结构工具 | 期货接入层与微观结构工具，未来做国内期货可借鉴其数据/下单抽象 |
+
+## H 类 · 国内期货预备（商品 / 金融期货 CTA，为未来扩展预备）
+
+| # | 仓库 | ★ | 语言 | 简介 | 研究适配性（胖娃娃批注） |
+|---|------|---|------|------|--------------------------|
+| H1 | [qingyangfeng666/quant_research_project](https://github.com/qingyangfeng666/quant_research_project) | 2 | Python | 中证500 股指期货 CTA 策略（中文注释） | **H 类最直接对口**。国内股指期货 CTA 入门范本，中文友好；配合 C2/vnpy 食用 |
+| H2 | [qinxi1122/Cta_Strategy_vnpy](https://github.com/qinxi1122/Cta_Strategy_vnpy) | 10 | Jupyter | 基于 vnpy 1.73 的 CTA 策略实作 | vn.py(C2)生态的 CTA 落地，未来国内期货主战场配套；看它怎么把策略接进 vnpy 引擎 |
+
 ---
 
 ## 建议的研究路径
 
-1. **先读 B1（backtrader-pullback-window-xauusd）**：它把"状态机 + 透明指标 + OOS 意识"做得很干净，是和主人 ATR 体系对话的最佳样本。
-2. **对照学 A3 / B7 的风控**：多周期过滤 + ATR 动态止损，和主人"H4 过滤 H1 / ATR_StopLoss"同源。
-3. **暂缓碰 B2（DRL）与 B4（9 策略评分）**：过拟合风险高，只看思路。
-4. **未来扩品种时**再深入 C2（vn.py）/ C3（hikyuu）。
-5. 任何想落地的策略，先按主人的"回测层 vs 实盘层"分层验证，再谈 EA 化。
+1. **先读 B1（backtrader 黄金回调）**：状态机 + 透明指标 + OOS 意识，和主人 ATR 体系对话的最佳样本。
+2. **对照学 A3 / B7 / D3 的风控**：多周期过滤 + ATR 动态止损 / 保守 scalping，与主人"H4 过滤 H1 / ATR_StopLoss"同源。
+3. **扩展品种时看 G1（期货趋势跟踪）**：把"趋势过滤 + 波动过滤"从黄金推广到股指/商品期货。
+4. **未来做国内期货**：从 H1（中证500 CTA）→ H2（vnpy CTA）→ C2（vnpy 主框架）逐步深入；C3（hikyuu）做高性能扫描。
+5. **暂缓碰 B2（DRL）与 B4（9 策略评分）**：过拟合风险高，只看思路。
+6. 任何想落地的策略，先按主人的"回测层 vs 实盘层"分层验证，再谈 EA 化。
 
 ---
 
