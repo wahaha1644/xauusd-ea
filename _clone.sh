@@ -169,4 +169,36 @@ rm -rf "$BASE/strategies/domestic-futures/Cta_Strategy_vnpy"
 git clone --depth 1 "https://github.com/qinxi1122/Cta_Strategy_vnpy.git" "$BASE/strategies/domestic-futures/Cta_Strategy_vnpy"
 if [ -d "$BASE/strategies/domestic-futures/Cta_Strategy_vnpy/.git" ]; then mv "$BASE/strategies/domestic-futures/Cta_Strategy_vnpy/.git" "$TRASH/n_$(echo qinxi1122/Cta_Strategy_vnpy | tr / _)"; fi
 
-echo "=== done: 33 repos ==="
+# ===== I 类：手动 / 半自动策略（SMC·ICT·价格行为·Pine）=====
+# 默认未 vendoring 源码；如需本地读码，取消下面注释或手动 git clone（SOURCE.md 内含命令）
+echo ">>> joshyattridge/smart-money-concepts (I1)"
+rm -rf "$BASE/strategies/manual-strategies/smart-money-concepts"
+git clone --depth 1 "https://github.com/joshyattridge/smart-money-concepts.git" "$BASE/strategies/manual-strategies/smart-money-concepts"
+if [ -d "$BASE/strategies/manual-strategies/smart-money-concepts/.git" ]; then mv "$BASE/strategies/manual-strategies/smart-money-concepts/.git" "$TRASH/n_$(echo joshyattridge/smart-money-concepts | tr / _)"; fi
+
+echo ">>> everget/tradingview-pinescript-indicators (I2)"
+rm -rf "$BASE/strategies/manual-strategies/tradingview-pinescript-indicators"
+git clone --depth 1 "https://github.com/everget/tradingview-pinescript-indicators.git" "$BASE/strategies/manual-strategies/tradingview-pinescript-indicators"
+if [ -d "$BASE/strategies/manual-strategies/tradingview-pinescript-indicators/.git" ]; then mv "$BASE/strategies/manual-strategies/tradingview-pinescript-indicators/.git" "$TRASH/n_$(echo everget/tradingview-pinescript-indicators | tr / _)"; fi
+
+echo ">>> Alorse/pinescript-strategies (I3)"
+rm -rf "$BASE/strategies/manual-strategies/pinescript-strategies"
+git clone --depth 1 "https://github.com/Alorse/pinescript-strategies.git" "$BASE/strategies/manual-strategies/pinescript-strategies"
+if [ -d "$BASE/strategies/manual-strategies/pinescript-strategies/.git" ]; then mv "$BASE/strategies/manual-strategies/pinescript-strategies/.git" "$TRASH/n_$(echo Alorse/pinescript-strategies | tr / _)"; fi
+
+echo ">>> ByteBard/ict-stradegy (I4)"
+rm -rf "$BASE/strategies/manual-strategies/ict-stradegy"
+git clone --depth 1 "https://github.com/ByteBard/ict-stradegy.git" "$BASE/strategies/manual-strategies/ict-stradegy"
+if [ -d "$BASE/strategies/manual-strategies/ict-stradegy/.git" ]; then mv "$BASE/strategies/manual-strategies/ict-stradegy/.git" "$TRASH/n_$(echo ByteBard/ict-stradegy | tr / _)"; fi
+
+echo ">>> kodalli/NT8-PAT-Strategy (I5)"
+rm -rf "$BASE/strategies/manual-strategies/NT8-PAT-Strategy"
+git clone --depth 1 "https://github.com/kodalli/NT8-PAT-Strategy.git" "$BASE/strategies/manual-strategies/NT8-PAT-Strategy"
+if [ -d "$BASE/strategies/manual-strategies/NT8-PAT-Strategy/.git" ]; then mv "$BASE/strategies/manual-strategies/NT8-PAT-Strategy/.git" "$TRASH/n_$(echo kodalli/NT8-PAT-Strategy | tr / _)"; fi
+
+echo ">>> KVignesh122/MT5-SMC-trading-bot (I6)"
+rm -rf "$BASE/strategies/manual-strategies/MT5-SMC-trading-bot"
+git clone --depth 1 "https://github.com/KVignesh122/MT5-SMC-trading-bot.git" "$BASE/strategies/manual-strategies/MT5-SMC-trading-bot"
+if [ -d "$BASE/strategies/manual-strategies/MT5-SMC-trading-bot/.git" ]; then mv "$BASE/strategies/manual-strategies/MT5-SMC-trading-bot/.git" "$TRASH/n_$(echo KVignesh122/MT5-SMC-trading-bot | tr / _)"; fi
+
+echo "=== done: 33 quant repos + 6 manual-strategy entries (I 类源码默认未拉) ==="
