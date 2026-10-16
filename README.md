@@ -1,13 +1,13 @@
-# xauusd-ea · 量化策略收藏库
+# xauusd-ea · 交易策略策展库
 
-> 由 **胖娃娃**（主人的 AI 量化搭档）从 GitHub 搜集整理，供主人后续研究使用。
+> 由 **胖娃娃**（主人的 AI 交易搭档）从 GitHub 搜集整理，供主人后续研究使用。
 > 搜集日期：2026-10-17 · 形式：**策展索引 + 策略源码**（源码已 clone 进 `strategies/` 分目录）。
 
 ---
 
 ## 这个仓库是什么
 
-主人做 **XAUUSD（伦敦金）H1 短线交易**，策略栈是 ATR 三件套 + MT5 EA。本仓库把 GitHub 上**有用的量化策略**按五类搜集起来，既保留可读的策展目录（本文件），也把源码 vendoring 进 `strategies/`，方便直接读码研究。
+主人做 **XAUUSD（伦敦金）H1 短线交易**，策略栈是 ATR 三件套 + MT5 EA。本仓库把 GitHub 上**有用的交易策略**搜集起来——既有量化 / EA 代码，也有**手动 / 半自动交易策略**（SMC·ICT·价格行为·Pine 信号），既保留可读的策展目录（本文件），也把源码 vendoring 进 `strategies/`，方便直接读码研究。
 
 - **A 类**：MT5/MQL5 EA（与主人当前平台 MT5 直接相关）
 - **B 类**：XAUUSD / 黄金 专属策略（与主线品种直接对口）
@@ -17,6 +17,7 @@
 - **F 类**：原油（WTI / Brent 商品期货）
 - **G 类**：股指期货 / 通用期货（ES / NASDAQ / 恒指等，及期货趋势跟踪）
 - **H 类**：国内期货预备（商品 / 金融期货 CTA，为未来扩展预备）
+- **I 类**：手动 / 半自动交易策略（SMC·ICT·价格行为·Pine 信号）——对应主人"手动交易策略也算"的要求；以方法论 / 指标工具为主，不是自动 EA
 - **周期范围**：M1–H1 短线 / 日内均纳入（含 scalp、breakout、pullback 等）。**明确排除**秒级 / 毫秒级 tick 拼延迟的「军备竞赛式」HFT——那类不在本仓库关注范围。
 
 ---
@@ -48,7 +49,8 @@ xauusd-ea/
 │   ├── silver/               # E 类：白银
 │   ├── crude-oil/            # F 类：原油
 │   ├── index-futures/        # G 类：股指期货 / 通用期货
-│   └── domestic-futures/     # H 类：国内期货预备
+│   ├── domestic-futures/     # H 类：国内期货预备
+│   └── manual-strategies/    # I 类：手动 / 半自动策略（SMC·ICT·价格行为·Pine）
 └── _clone.sh                 # 重新拉取所有源码的脚本（depth=1）
 ```
 
@@ -133,6 +135,19 @@ xauusd-ea/
 | H1 | [qingyangfeng666/quant_research_project](https://github.com/qingyangfeng666/quant_research_project) | 2 | Python | 中证500 股指期货 CTA 策略（中文注释） | **H 类最直接对口**。国内股指期货 CTA 入门范本，中文友好；配合 C2/vnpy 食用 |
 | H2 | [qinxi1122/Cta_Strategy_vnpy](https://github.com/qinxi1122/Cta_Strategy_vnpy) | 10 | Jupyter | 基于 vnpy 1.73 的 CTA 策略实作 | vn.py(C2)生态的 CTA 落地，未来国内期货主战场配套；看它怎么把策略接进 vnpy 引擎 |
 
+## I 类 · 手动 / 半自动交易策略（SMC·ICT·价格行为·Pine 信号）
+
+> 本类对应主人"**手动交易策略也算**"的要求——GitHub 上这类资源以**方法论 / 指标工具 / 信号参考**为主，不是自动 EA。手动交易者（尤其 XAUUSD H1 SMC 派）可直接学其逻辑、用 TradingView / Pine 验证思路。**注意**：SMC/ICT 圈子营销号极多，下面只收有代码、可复现、星数 / 质量在线的仓库。
+
+| # | 仓库 | ★ | 语言 | 简介 | 研究适配性（胖娃娃批注） |
+|---|------|---|------|------|--------------------------|
+| I1 | [joshyattridge/smart-money-concepts](https://github.com/joshyattridge/smart-money-concepts) | 2088 | Python | ICT 的 SMC 概念开源库：FVG / 流动性 / 订单块 / BMS 等指标 | **I 类旗舰**。把 ICT 的 SMC 讲法变成可计算指标，手动交易者学"SMC 到底怎么量化"的权威样本；先看它再读任何 SMC EA |
+| I2 | [everget/tradingview-pinescript-indicators](https://github.com/everget/tradingview-pinescript-indicators) | 934 | Pine | TradingView 最大的 Pine 指标集合之一（均 / 带 / 震荡器） | 手动交易者技术分析工具箱；挑 ATR / 波动率 / 结构类指标与你 ATR 体系对照验证 |
+| I3 | [Alorse/pinescript-strategies](https://github.com/Alorse/pinescript-strategies) | 250 | JS/Pine | 50+ 自定义 Pine 策略 / 指标 / 多警报脚本集合 | 现成策略模板库，手动验证"某思路历史上有没有用"效率很高；严格按"数字五问"复核其回测 |
+| I4 | [ByteBard/ict-stradegy](https://github.com/ByteBard/ict-stradegy) | 13 | Python | Al Brooks 价格行为 33 策略代码化（pin bar / FTB / 趋势等） | 价格行为（裸 K）权威 Al Brooks 的体系化整理，手动日内交易者必读；与 SMC 互补看结构 |
+| I5 | [kodalli/NT8-PAT-Strategy](https://github.com/kodalli/NT8-PAT-Strategy) | 20 | C# | NinjaTrader 8 价格行为交易策略 | 期货手动交易者参考：NT8 是期货圈主流手动平台；看它怎么把价格行为规则写成可执行策略 |
+| I6 | [KVignesh122/MT5-SMC-trading-bot](https://github.com/KVignesh122/MT5-SMC-trading-bot) | 89 | MQL5 | SMC 自动化：订单块 / FVG / BOS + ATR / 时段 / regime 过滤 + 风控 | 虽是 EA，但 OB / FVG / BOS 逻辑是手动 SMC 的自动化范本；学"SMC 如何加过滤器降噪"，与其自动运行不如手动借鉴 |
+
 ---
 
 ## 建议的研究路径
@@ -143,6 +158,7 @@ xauusd-ea/
 4. **未来做国内期货**：从 H1（中证500 CTA）→ H2（vnpy CTA）→ C2（vnpy 主框架）逐步深入；C3（hikyuu）做高性能扫描。
 5. **暂缓碰 B2（DRL）与 B4（9 策略评分）**：过拟合风险高，只看思路。
 6. 任何想落地的策略，先按主人的"回测层 vs 实盘层"分层验证，再谈 EA 化。
+7. **手动策略线（I 类）**：想做 XAUUSD H1 手动 SMC，从 I1（SMC 概念）→ I4（Al Brooks 价格行为）→ I2/I3（Pine 验证）打通；I6 学怎么给 SMC 加过滤器降噪。
 
 ---
 
